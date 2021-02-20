@@ -8,8 +8,8 @@ datasets:
   test:
     name: Vimeo90K-Test
     type: VideoTestVimeo90KDataset
-    dataroot_gt: datasets/vimeo90k/vimeo_septuplet/sequences
-    dataroot_lq: datasets/vimeo90k/vimeo_septuplet_matlabLRx4/sequences
+    dataroot_gt: datasets/vimeo/vimeo_septuplet/sequences
+    dataroot_lq: datasets/vimeo/vimeo_septuplet_matlabLRx4/sequences
     meta_info_file: basicsr/data/meta_info/meta_info_Vimeo90K_test_GT.txt
     io_backend:
       type: disk

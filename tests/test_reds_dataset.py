@@ -18,8 +18,8 @@ def main(mode='folder'):
     opt['name'] = 'REDS'
     opt['type'] = 'REDSDataset'
     if mode == 'folder':
-        opt['dataroot_gt'] = 'datasets/REDS/train_sharp'
-        opt['dataroot_lq'] = 'datasets/REDS/train_sharp_bicubic'
+        opt['dataroot_gt'] = 'datasets/REDS/train_sharp2/train/train_sharp'
+        opt['dataroot_lq'] = 'datasets/REDS/train_sharp_bicubic/train/train_sharp_bicubic/X4'
         opt['dataroot_flow'] = None
         opt['meta_info_file'] = 'basicsr/data/meta_info/meta_info_REDS_GT.txt'
         opt['io_backend'] = dict(type='disk')

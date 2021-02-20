@@ -4,7 +4,7 @@ function generate_LR_Vimeo90K()
 up_scale = 4;
 mod_scale = 4;
 idx = 0;
-filepaths = dir('/home/xtwang/datasets/vimeo90k/vimeo_septuplet/sequences/*/*/*.png');
+filepaths = dir('/home/edvr/edvr/BasicSR/datasets/vimeo/vimeo_septuplet/sequences/*/*/*.png');
 for i = 1 : length(filepaths)
     [~,imname,ext] = fileparts(filepaths(i).name);
     folder_path = filepaths(i).folder;
