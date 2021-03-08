@@ -8,8 +8,8 @@ datasets:
   test:
     name: REDS4
     type: VideoTestDataset
-    dataroot_gt: datasets/REDS/train_sharp
-    dataroot_lq: datasets/REDS/train_blur_comp
+    dataroot_gt: datasets/REDS/train_sharp/train/train_sharp
+    dataroot_lq: datasets/REDS/train_blur_comp/train/train_blur_comp
     meta_info_file: basicsr/data/meta_info/meta_info_REDS4_test_GT.txt
     io_backend:
       type: disk

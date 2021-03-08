@@ -10,8 +10,8 @@ datasets:
   train:
     name: REDS
     type: REDSDataset
-    dataroot_gt: datasets/REDS/train_sharp
-    dataroot_lq: datasets/REDS/train_sharp_bicubic
+    dataroot_gt: datasets/REDS/train_sharp/train/train_sharp
+    dataroot_lq: datasets/REDS/train_sharp_bicubic/train/train_sharp_bicubic/X4
     dataroot_flow: ~
     meta_info_file: basicsr/data/meta_info/meta_info_REDS_GT.txt
     val_partition: REDS4  # set to 'official' when use the official validation partition
