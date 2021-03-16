@@ -5,7 +5,8 @@ results/*
 tb_logger/*
 wandb/*
 tmp/*
-
+miVideo/*
+datasets
 .vscode
 
 # ignored files
@@ -13,7 +14,6 @@ version.py
 
 # ignored files with suffix
 *.html
-*.png
 *.jpeg
 *.jpg
 *.gif
