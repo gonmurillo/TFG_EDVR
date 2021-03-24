@@ -9,7 +9,6 @@ Tutores:
 
 + Pedro Latorre Carmona
 + César Ignacio Garcıa Osorio
-+ 
 ```
 @misc{wang2020basicsr,
   author =       {Xintao Wang and Ke Yu and Kelvin C.K. Chan and
