@@ -8,7 +8,7 @@ datasets:
   test:
     name: REDS4
     type: VideoTestDataset
-    dataroot_gt: miniConjunto/train_sharp
+    dataroot_gt: datasets/REDS/train_blur/train/train_blur
     dataroot_lq: miniConjunto/train_blur_bicubic
     meta_info_file: basicsr/data/meta_info/meta_info_REDS4_test_GT.txt
     io_backend:
