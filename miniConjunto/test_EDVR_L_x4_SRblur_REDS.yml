@@ -10,7 +10,7 @@ datasets:
     type: VideoTestDataset
     dataroot_gt: miniConjunto/train_sharp
     dataroot_lq: miniConjunto/train_blur_bicubic
-    meta_info_file: basicsr/data/meta_info/meta_info_REDS4_test_GT.txt
+    meta_info_file: miniConjunto/meta_info_REDS4_test_GT.txt
     io_backend:
       type: disk
 
@@ -35,7 +35,7 @@ network_g:
 
 # path
 path:
-  pretrain_network_g: experiments/pretrained_models/EDVR/EDVR_L_x4_SRblur_REDS_official-983d7b8e.pth
+  pretrain_network_g: Interfaz/EDVR_L_x4_SRblur_REDS_official-983d7b8e.pth
   strict_load_g: true
 
 # validation settings
