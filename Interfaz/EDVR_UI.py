@@ -33,16 +33,22 @@ def home():
 
 
 def ejecucion(path_v,predb):
-    layout = [[sg.Text('Cuando estes listo presiona Generar',size=(55, 1),key='-TEXT-')],
+    layout = [[sg.Text('Estos son los valores que vas a usar:',size=(55, 1),key='-TEXT-')],
+         [sg.Text(path_v, key='-PATH-')],   
+         [sg.Text("Predeblur", key='-TEXT2-'), sg.Text(predb, key='-BOOL-')],        
          [sg.Image(None,key='-IMAGE-')],
-         [sg.Button("Generar"), sg.Button('Exit')]]
+         [sg.Button("Generar", key='-GEN-'), sg.Button('Exit')]]
     window = sg.Window('EDVR UI', layout)
     while True: # Event Loop
         event, values = window.read()
         print(event, values)
         if event in (None, 'Exit'):
             break
-        if event == 'Generar':
+        if event =='-GEN-':
+            window['-PATH-'].update(visible=False)
+            window['-TEXT2-'].update(visible=False)
+            window['-BOOL-'].update(visible=False)
+            window['-GEN-'].update(visible=False)
             window['-TEXT-'].update('Generando los frames, puede tardar un poco.')
             window['-IMAGE-'].update('Estados/frames.PNG')
             window.Refresh()
@@ -64,7 +70,6 @@ def ejecucion(path_v,predb):
             window['-IMAGE-'].update('Estados/video.PNG')
             window.Refresh()
             hacer_video()
-            window['-GEN-'].update(visible=False)
             window.extend_layout(window, [[sg.B('Sí')]])
             window['-TEXT-'].update('El proceso ya acabado, ¿Quieres visualizar el vídeo?')
             window['-IMAGE-'].update('Estados/video.PNG')
@@ -170,9 +175,9 @@ def btn(name):
     return sg.Button(name, size=(6, 1), pad=(1, 1))
     
 def reproducir_video():
-    layout = [[sg.Button('cargar')],
+    layout = [[sg.Button('Cargar')],
               [sg.Image('', size=(300, 170), key='-VID_OUT-')],
-              [btn('anterior'), btn('play'), btn('siguiente'), btn('pause'), btn('stop')],
+              [btn('Play'), btn('Pause'), btn('Stop')],
               [sg.Text('Carga el vídeo para empezar', key='-MESSAGE_AREA-')]]
     
     window = sg.Window('EDVR Player', layout, element_justification='center', finalize=True, resizable=True)
@@ -194,20 +199,13 @@ def reproducir_video():
         if event == sg.WIN_CLOSED:
             break
     
-        if event == 'play':
+        if event == 'Play':
             list_player.play()
-        if event == 'pause':
+        if event == 'Pause':
             list_player.pause()
-        if event == 'stop':
+        if event == 'Stop':
             list_player.stop()
-        if event == 'siguiente':
-            list_player.next()
-            list_player.play()
-        if event == 'anterior':
-            list_player.previous()      
-            list_player.previous()     
-            list_player.play()
-        if event == 'cargar':
+        if event == 'Cargar':
     
             media_list.add_media('Resultado/resultado.mp4')
             list_player.set_media_list(media_list)
