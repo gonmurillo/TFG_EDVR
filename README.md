@@ -33,6 +33,8 @@ Para la instalación de ambos repositorios seguir el apartado PASOS PREVIOS del 
 
 Una vez completados habrá que instalar los requerimientos para la interfaz:
   ```bash
+  
+  ![Screenshot](ejemplos/noDedo.PNG)
 pip install ffmpeg-python
 pip install opencv-python
 pip install PySimpleGUI
@@ -47,3 +49,8 @@ sudo apt install vlc
     ```bash
     python EDVR_UI.py
     ```
+    
+  Ejemplo de imagen original y procesada por EDVR:
+  
+  ![Prueba](ejemplos/noDedof.PNG)
+    
