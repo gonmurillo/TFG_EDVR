@@ -1,0 +1,57 @@
+\capitulo{1}{Introducción}
+
+Hoy en día vivimos en un mundo basado en la digitalización completa de todos los sectores, y en esta realidad los vídeos tienen un valor muy importante. Todo el mundo tiene en sus manos dispositivos que permiten la adquisición de vídeo, pero no siempre se obtienen los resultados que se desearían. También hay sectores que requieren de gran calidad en los vídeos para diversos fines, militar, seguridad, astronomía, medicina, etc.\
+La tecnología ha evolucionado mucho desde la primera vez que se grabó el primer vídeo, allá por 1895 con los hermanos Lumière~\cite{Salas_Murillo_2010}, esta grabación no se puede comparar con ningún  vídeo actual, la super resolución/restauración  ofrece soluciones a todos los casos expuestos, mejorándolos en diversos aspectos y ayudando a su mejor comprensión, calidad y visibilidad. 
+
+ La definición de vídeo es:  tecnología de grabación, procesamiento, almacenamiento, transmisión de imágenes y reconstrucción por medios electrónicos digitales o analógicos de una secuencia de imágenes que representan escenas en movimiento~\cite{wiki:video}. Pero en el contexto en el que nos encontramos reduciremos el término  a una secuencia de imágenes en movimiento. Gracias al Machine Learning, los algoritmos para la restauración de vídeos y super resolución  están  mejorando a pasos agigantados, corrigiendo detalles y mejorando la calidad de los vídeos procesados. 
+ 
+ La super resolución de vídeo permite crear versiones de los vídeos en los que los problemas como el desenfoque, emborronamiento, etc., no existen. Estos problemas afectan de forma directa a métodos posteriores de aprendizaje máquina, como podrían ser los métodos de reconocimiento de acciones humanas.
+
+Una mejora en estos aspectos permitiría aumentar la tasa de acierto de los clasificadores de forma considerable.
+ 
+ Una gran parte de estas implementaciones se basan en obtener información aprovechandose de la redundancia en información intrínseca de imágenes temporalmente contiguas, en secuencias de vídeo. temporalmente contiguos, en estas secuencias de vídeo. EDVR (\emph{Enhanced Deformable Convolutional Networks}) es el modelo usado en este Trabajo de Fin de Grado, se engloba en este grupo y usa Pytorch para lograr mejorarlos. Destaca en los siguientes aspectos.
+
+\begin{itemize}
+	\item Super resolución.
+	\item Eliminación del emborronamiento.
+	\item Reducción de ruido.
+	\item Compresión.
+\end{itemize}
+
+El funcionamiento básico de EDVR consiste en, partiendo de un  vídeo:
+
+\begin{itemize}
+\item Convertirlo en fotogramas.
+\item Transformar los fotogramas a baja calidad.
+\item Ejecutar el procesado de EDVR.
+\item Recomponer el vídeo con los fotogramas procesados. 
+\end{itemize}
+Para ello también se implementa una interfaz que simplifica el proceso.
+
+\section{Estructura de la memoria}
+
+\begin{itemize}
+	\item \textbf{Objetivos del proyecto:} se definen los objetivos generales, técnicos y personales que se persiguen con la realización de este trabajo. 
+	\item \textbf{Conceptos teóricos:} se explican los conceptos teóricos que se han manejado en el desarrollo de este proyecto. 
+	\item \textbf{Técnicas y herramientas:} se enumeran y explican las distintas técnicas metodológicas y herramientas que se han usado. 
+	\item \textbf{Aspectos relevantes del desarrollo del proyecto:} se exponen los problemas que se han afrontado durante el desarrollo del proyecto y las decisiones que se han tomado para solucionarlos. 
+	\item \textbf{Trabajo relacionados:} se resume la información encontrada durante la exploración inicial del estado del arte. 
+	\item \textbf{Conclusiones y líneas de trabajo futuras:} se exponen las conclusiones generales y personales del proyecto y se enumeran una serie de posibles líneas de trabajo futuras. 
+\end{itemize}
+
+\section{Materiales adjuntos}
+\begin{itemize}	
+	\item \textbf{Anexos:}
+	\begin{itemize}
+		\item Plan de Proyecto.
+		\item Especificación de Requisitos.
+		\item Especificación de diseño.
+		\item Documentación técnica de programación.
+		\item Documentación de usuario.
+	\end{itemize}
+	\item \textbf{Cuaderno de demostración:} Notebook de Jupyter que contiene el tutorial de instalación junto con una ejecución de prueba de EDVR.
+	\item \textbf{Mini conjunto de pruebas:} Parte del conjunto de datos REDS (REalistic and Dynamic Scenes) que contiene 800 imágenes para la ejecución de prueba EDVR, además de parte de los modelos pre-entrenados.
+	\item \textbf{Interfaz:} Código y requerimientos para poder usar la interfaz.
+\end{itemize}
+
+A la memoria y a todos los demás materiales adjuntos se puede acceder a través del repositorio del proyecto en GitHub: \url{https://github.com/gonmurillo/TFG_EDVR}. 

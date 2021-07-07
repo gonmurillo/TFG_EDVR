@@ -1,0 +1,163 @@
+\apendice{Especificación de Requisitos}
+
+\section{Introducción}
+Este apartado recoge los requisitos y objetivos del proyecto. Se detallarán los objetivos generales y tanto los requisitos funcionales como los no funcionales.
+
+\section{Objetivos generales}
+
+El principal de este proyecto es el estudio de la herramienta de super resolución y restauración de vídeo, implementando mis propios vídeos, así como de la implementación de una interfaz. Este desarrollo se usaría como una herramienta de pre-procesado para técnicas de clasificación de gestos y acciones humanas.
+Los objetivos generales del trabajo se exponen en la memoria.
+
+\section{Catalogo de requisitos}
+
+\subsection{Requisitos funcionales}
+Aquí se enumeran los requisitos funcionales que han sido implementados en el trabajo realizado:
+
+\begin{itemize}
+
+\item \textbf{RF 1 Obtención de vídeos.} Los videos deben adecuarse a los tamaños soportados 720 x 1280 o  1280 x  720 para vídeos tipo REDS y 448 y 256 o 256 x 448 para vídeos tipo Vimeo.
+	\begin{itemize}
+    \item \textbf{RF 1.1 Vídeos para la interfaz.} En el caso de la interfaz los videos deben de usarse son los de tipo REDS. 
+    \end{itemize}
+
+\item \textbf{RF 2 Procesamiento de videos a mejorar.} Los vídeos deben descomponerse en fotogramas acorde a la estructura de directorios requerida por EDVR.
+	\begin{itemize}
+    \item \textbf{RF 2.1 Obtención de datos.} Las dimensiónes, el número de fotogramas y la ubicacion de los fotogramas. 
+    \end{itemize}
+
+\item \textbf{RF 3 Generación de fichero de configuración.} Para que EDVR pueda ejecutarse es necesario crear y rellenar un fichero que contenga entre otras cosas, la ubicación de las imágenes, si se quiere usar el modo \emph{predeblur}, la ubicación de los modelos preentrenados.
+
+\item \textbf{RF 4 Recomposición de video procesado.} Los fotogramas procesados deben ser reconvertidos a vídeo para su visualización.
+
+\item \textbf{RF 5 Reproducción del vídeo.} El vídeo debe poder ser visualizado desde la interfaz.
+
+\end{itemize}
+
+\subsection{Requisitos no funcionales}
+
+Aquí se enumeran los requisitos no funcionales que han sido implementados en el trabajo realizado:
+
+\begin{itemize}
+
+\item \textbf{RNF 1 Proceso automático.}  Todo el proceso, desde el procesamiento de los vídeos hasta la reproducción de los mismos debe realizarse automáticamente, solo requiriendo hacer clic en un botón.
+
+\item \textbf{RNF 2 Facilidad de instalación.} La herramienta debe ser fácil de instalar y de puesta en marcha.
+
+\item \textbf{RNF 3 Usabilidad.} La herramienta debe cumplir estándares de usabilidad, siendo intuitiva y fácilmente utilizable.
+
+\item \textbf{RNF 4 Software libre.} La herramienta debe requerir del uso de \emph{software} libre.
+
+\end{itemize}
+
+\section{Especificación de requisitos}
+
+\subsection{Diagramas de casos de uso}
+
+\imagen{diagraUso}{Diagrama general de los casos de uso}
+
+\imagen{desglose}{Diagrama desglosado de los casos de uso del usuario}
+
+\tablaSmallSinColores{Caso de uso 1: Obtencion de la información previa.}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC1}{
+	  \multicolumn{3}{l}{Caso de uso 1: Obtencion de la información previa.} \\
+	 }
+	 {
+	  Descripción                            & \multicolumn{2}{p{10.25cm}}{El usuario obtiene información que se usará en la ejecución.} \\\hline
+	  \multirow{2}{3.5cm}{Requisitos}   &\multicolumn{2}{p{10.25cm}}{RF 1} \\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 1.1} 
+	                                         \\\hline
+	  Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Es necesario disponer de un vídeo para obtener los datos.}   \\\hline
+	  \multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	                                         & 1    & Obtener las dimensiones del vídeo.
+	  \\\cline{2-3}
+	                                         & 2    & Transformar el vídeo a fotogramas.
+	  \\\cline{2-3}
+	                                         & 3    & Contavilizar el número de fotogramas obtenidos.
+	  \\\cline{2-3}                             
+	                                         & 4    & Guardar la ubicacion de los fotogramas.
+	                                         \\\hline
+	  Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{La información se ha obtenido.} \\\hline
+	  Excepciones                        & \multicolumn{2}{p{10.25cm}}{No se ha podido obtener toda la información que se requiere.}\\\hline
+	  Importancia                            & Alta \\\hline
+	  Urgencia                               & Alta \\
+	}
+
+
+\tablaSmallSinColores{Caso de uso 2: Inserción de la informacion para el prosesado.}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC1}{
+	  \multicolumn{3}{l}{Caso de uso 2: Inserción de la informacion para el prosesado.} \\
+	 }
+	 {
+	  Descripción                            & \multicolumn{2}{p{10.25cm}}{Los dos ficheros necesarios para la ejecución son rellenados.} \\\hline
+	  \multirow{2}{3.5cm}{Requisitos}   &\multicolumn{2}{p{10.25cm}}{RF 1} \\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 1.1} \\\cline{2-3}
+	                                         &\multicolumn{2}{p{10.25cm}}{RF 2} \\\cline{2-3}
+	                                         &\multicolumn{2}{p{10.25cm}}{RF 2.1}
+	                                         \\\hline
+	  Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Es necesario disponer de los datos del paso anterior.}   \\\hline
+	  \multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	                                         & 1    & Crear los ficheros.
+	  \\\cline{2-3}
+	                                         & 2    & Rellenar los campos de la ubicación.
+	  \\\cline{2-3}
+	                                         & 3    & Rellenar el campo de las dimensiones.
+	  \\\cline{2-3}                             
+	                                         & 4    & Rellenar el campo del número de fotogramas.
+	   \\\cline{2-3}                             
+	                                         & 5    & Rellenar el tipo de pretarined model y el campo predeblur.
+	                                         \\\hline
+	  Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Los ficheros se han rellenado correctamente.} \\\hline
+	  Excepciones                        & \multicolumn{2}{p{10.25cm}}{No se ha rellenado alguno de los campos.}\\\hline
+	  Importancia                            & Alta \\\hline
+	  Urgencia                               & Media \\
+	}
+
+
+\tablaSmallSinColores{Caso de uso 3: Ejecución de EDVR.}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC1}{
+	  \multicolumn{3}{l}{Caso de uso 3: Ejecución de EDVR.} \\
+	 }
+	 {
+	  Descripción                            & \multicolumn{2}{p{10.25cm}}{Los fotogramas son procesados mejorando su calidad.} \\\hline
+	  \multirow{2}{3.5cm}{Requisitos}   &\multicolumn{2}{p{10.25cm}}{RF 1} \\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 1.1}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 2}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 2.2}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 3}
+	                                         \\\hline
+	  Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Los ficheros de ejecución deben haberse rellendo correctamete.}   \\\hline
+	  \multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	                                         & 1    & Se indica el PYTHONPATH.
+	  \\\cline{2-3}
+	                                         & 2    & Se indica el numero de GPUs que se usan.
+	  \\\cline{2-3}
+	                                         & 3    & Se indica el fichero pirncipal para la ejecución.
+	  \\\cline{2-3}                             
+	                                         & 4    & Las imágenes son procesadas.
+	                                         \\\hline
+	  Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{Los fotogramas son super resueltos.} \\\hline
+	  Excepciones                        & \multicolumn{2}{p{10.25cm}}{Error en el procesamiento.}\\\hline
+	  Importancia                            & Alta \\\hline
+	  Urgencia                               & Alta \\
+	}
+	
+	\tablaSmallSinColores{Caso de uso 4: Reproducción de vídeo.}{p{3cm} p{.75cm} p{9.5cm}}{tablaUC1}{
+	  \multicolumn{3}{l}{Caso de uso 4: Reproducción de vídeo.} \\
+	 }
+	 {
+	  Descripción                            & \multicolumn{2}{p{10.25cm}}{El vídeo procesado se reproduce.} \\\hline
+	  \multirow{2}{3.5cm}{Requisitos}   &\multicolumn{2}{p{10.25cm}}{RF 1} \\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 1.1}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 2}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 2.2}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 3}\\\cline{2-3}
+	                                         & \multicolumn{2}{p{10.25cm}}{RF 4}
+	                                         \\\hline
+	  Precondiciones                         &  \multicolumn{2}{p{10.25cm}}{Los frames han sido procesados y recompuestos.}   \\\hline
+	  \multirow{2}{3.5cm}{Secuencia normal}  & Paso & Acción \\\cline{2-3}
+	                                         & 1    & Cargar el vídeo se carga.
+	  \\\cline{2-3}
+	                                         & 2    & El vídeo se reproduce.
+	                                         \\\hline
+	  Postcondiciones                        & \multicolumn{2}{p{10.25cm}}{El vídeo se reproduce correctamente.} \\\hline
+	  Excepciones                        & \multicolumn{2}{p{10.25cm}}{El vídeo no se reproduce.}\\\hline
+	  Importancia                            & Baja \\\hline
+	  Urgencia                               & Baja \\
+	}

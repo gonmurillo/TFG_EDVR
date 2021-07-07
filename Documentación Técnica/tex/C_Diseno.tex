@@ -1,0 +1,172 @@
+\apendice{Especificación de diseño}
+
+\section{Introducción}
+
+Este apartado se encarga de recoger los diferentes diseños que han sido llevados a cabo para la realización del proyecto y cumplir de forma satisfactoria los requisitos y objetivos anteriormente tratados.
+	\begin{itemize}
+        \item Primero  se hará una breve mención al diseño de los datos, usados por EDVR.
+        
+        \item El siguiente apartado trata sobre la estructura del código usado.
+        
+        \item A continuación se desglosa las funciones que se han implementado.
+
+        \item Por último, se exponen los prototipos de la interfaz de usuario, previos a el desarrollo de la interfaz.
+    \end{itemize}
+
+\section{Diseño de datos}
+
+Para la ejecución de la interfaz, tanto de EDVR por la línea de comandos es requisito indispensable que los vídeos a procesar sean de la siguiente resolución $720\times 1280$ píxeles o viceversa. Para la ejecución por línea también se puede usar $448 \times 256$ píxeles o viceversa, cambiando por el modelo pre entrenado correspondiente a Vimeo. Dado que es una resolución no muy común se dejo de trabajar pronto con ella para centrarse en la otra disponible.
+
+Todos los vídeos usados durante el proyecto son capturados con un móvil a resolución $720\times 1280$ píxeles y en formato .mp4. Los fotogramas que se obtienen a partir de esos vídeos de la resolución correspondiente a los vídeos y en formato .png, al igual que los conjuntos de datos utilizados REDS y Vimeo90K.
+
+Esto es todo respecto desarrollo de la interfaz, pero EDVR interacciona con imágenes, en este manejo de los fotogramas, sucesivas transformaciones y comparaciones, EDVR se basa en la técnica de comparación de fotogramas adyacentes  y la fusión de sus características.
+
+Para lograr estos hitos las imágenes son divididas en múltiples matrices de tamaño n, en el ejemplo de tamaño 3:
+
+        \begin{equation*}
+        H = \begin{bmatrix}
+            h_{00} & h_{01} & h_{02}\\
+            h_{10} & h_{11} & h_{12}\\
+            h_{20} & h_{21} & h_{22}
+            \end{bmatrix}
+        \end{equation*}
+
+Una vez en este formato es sencillo buscar el mismo punto $h_{00}$ en las imágenes adyacentes ${h^n}_{00}$ y comprobar de cuál de ellos se obtiene la mayor información para el proceso de mejora.
+Esto es una explicación básica de los dos módulos de super resolución que EDVR usa, para más detalles dirigirse a la memoria. 
+
+\section{Diseño procedimental}
+
+Todos los eventos que pueden ocurrir durante el desarrollo  de la interfaz son concurrentes, es decir pueden ejecutarse en cualquier orden ya que todos están activos en todo momento, pero el orden que se muestra a continuación es el ideal. 
+
+\FloatBarrier
+\begin{algorithm}[!h]
+\While{No clic Exit o cerrar}
+{
+\If{Rellenar \emph{path} a mano}
+{
+Ubicación rellenada
+}
+\If{Clic Buscar}
+{
+Open Buscador
+}
+\If{Modo \emph{Predeblur} True}
+{
+Predeblur=True
+ }
+ \If{Modeo \emph{Predeblur} False}{
+Predeblur=False
+}
+\If{Clic Comenzar}
+{
+Open Confirmar
+}
+}	
+\caption{Proceso de Selección de vídeo }
+\end{algorithm}
+\FloatBarrier
+
+\FloatBarrier
+\begin{algorithm}[!h]
+\If{Clic Cancel o cerrar}
+{
+Volver Selección
+}
+\If{Clic Browse}
+{
+Explorador
+}
+\If{Clic Ok }
+{
+Ubicación rellenada
+Volver Selección
+ }	
+\caption{Proceso de Búsqueda de vídeos }
+\end{algorithm}
+\FloatBarrier
+
+\FloatBarrier
+\begin{algorithm}[!h]
+\If{Clic Exit o cerrar}
+{
+Volver Selección
+}
+\If{Clic Generar}
+{
+Ejecución
+}
+\caption{Proceso de Confirmación de ejecución  }
+\end{algorithm}
+\FloatBarrier
+
+\FloatBarrier
+\begin{algorithm}[!h]
+\If{Clic Exit o cerrar}
+{
+Volver Selección
+}
+\If{Clic Si}
+{
+Reprodución
+}
+\caption{Proceso de Ejecución }
+\end{algorithm}
+\FloatBarrier
+
+\FloatBarrier
+\begin{algorithm}[!h]
+\If{Clic  cerrar}
+{
+Volver Ejecucíon
+}
+\If{Clic cargar}
+{
+Cargar vídeo
+}
+\If{Clic paly}
+{
+Reproduce vídeo
+}
+\If{Clic pause}
+{
+Para vídeo
+}
+\If{Clic stop}
+{
+Interrumpe vídeo
+}
+\caption{Proceso de Reproducción del vídeo procesado }
+\end{algorithm}
+\FloatBarrier
+
+
+\section{Diseño arquitectónico}
+
+La arquitectura de la interfaz es muy sencilla, esta dividida en ocho funciones, de las cuales tres forman la base de la interfaz home, ejecución y reproducir\_video. Con esto me refiero a que solo estas tres clases son las que usan código de PysimpleGUI y forman la interfaz, el resto de las funciones contienen código para preparar la ejecución y su posterior procesado.
+\begin{itemize}
+  \item \textbf{Función home:} Es la primera ventana de la ejecución y la del explorador de archivos. En ella se obtienen los valores de la ubicación del vídeo y del uso o no del modo \emph{predeblur}.
+  \item \textbf{Función ejecucion:} La clase que se encarga de llamar a el resto de las funciones que requiere EDVR. Compuesta por la ventana de confirmación y de progreso de la ejecución. Durante su ejecución obtiene los valores de la dimensión del vídeo y el número de fotogramas.
+  \item \textbf{Función hacer\_frames:} Función encargada de usar FFmpeg para transformar el vídeo de entrada en fotogramas.
+  \item \textbf{Función hacer\_LR3:} Función que transforma los fotogramas obtenidos en la anterior a baja resolución.
+  \item \textbf{Función ejecutar\_EDVR:} Función que crea y rellena los ficheros .txt e .yml necesarios para la ejecución. También lanza la ejecución.
+  \item \textbf{Función hacer\_video:} Función que partiendo de los fotogramas obtenidos por EDVR, los transforma a vídeo.
+  \item \textbf{Función btn:} Función que sirve para definir el tamaño de los botones que se usan en el reproductor.
+  \item \textbf{Función reproducir\_video:} Función que usa el reproductor VLC para reproducir el vídeo procesado.
+\end{itemize}
+   
+    \imagen{interfaz}{Esquema de funciones para la ejecución de EDVR }
+
+\section {Diseño de interfaces}
+
+Inicialmente se realizó un conjunto de prototipos  básicos en los que se plasmaron las funcionalidades que debería tener la interfaz. Los diseños son bastante parecidos a los obtenidos finalmente.
+
+
+    \imagen{obDatos}{Prototipos iniciales de las pantallas de seleccion de vídeo a procesar y de uso del módulo de predeblur.}
+
+    \imagen{carga}{Prototipos iniciales de las pantallas de carga durante el procesamiento.}
+
+    \imagen{repro}{Prototipos iniciales de las pantallas de reproducción del vídeo procesado.}
+
+Durante el desarrollo de se decidió usar el tema oscuro “Dark” tema prediseñado en PySimpleGUI, siguiendo los cánones de desarrollo actuales. También durante el desarrollo se tomaron diferentes decisiones en el diseño, dando lugar a los resultados mostrados en la siguiente figura. 
+
+    \imagen{final}{Interfaces finales.}

@@ -1,0 +1,18 @@
+\select@language {spanish}
+\select@language {spanish}
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Ruido generado por mala iluminaci\IeC {\'o}n}}{9}{figure.3.1}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Ejemplo de dehazing}}{10}{figure.3.2}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Tipos de algoritmos de reconocimiento de acciones~\cite {article}}}{12}{figure.3.3}
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Ejemplo de imagen extra\IeC {\'\i }da de un v\IeC {\'\i }deo de resoluci\IeC {\'o}n 720x1280 y la misma imagen procesada por Matlab de resoluci\IeC {\'o}n 180x320}}{16}{figure.4.1}
+\contentsline {figure}{\numberline {5.1}{\ignorespaces Estructura de funcionamiento interno EDVR}}{24}{figure.5.1}
+\contentsline {figure}{\numberline {5.2}{\ignorespaces Imagen procesada por EDVR, la imagen de entrada fue obtenida con FFmpeg para Python}}{29}{figure.5.2}
+\contentsline {figure}{\numberline {5.3}{\ignorespaces Imagen procesada por EDVR, la imagen de entrada fue obtenida con Cv2 y gausianblur de valor 2}}{30}{figure.5.3}
+\contentsline {figure}{\numberline {5.4}{\ignorespaces Imagen procesada por EDVR, la imagen de entrada fue obtenida con Cv2 y gausianblur de valor 3}}{31}{figure.5.4}
+\contentsline {figure}{\numberline {5.5}{\ignorespaces Imagen procesada por EDVR, la imagen de entrada fue obtenida con Cv2 y gausianblur de valor 4}}{32}{figure.5.5}
+\contentsline {figure}{\numberline {5.6}{\ignorespaces Imagen procesada por EDVR, la imagen de entrada fue obtenida con Cv2 y gausianblur de valor 0.25}}{33}{figure.5.6}
+\contentsline {figure}{\numberline {5.7}{\ignorespaces Imagen procesada por EDVR, la imagen de entrada fue obtenida con Cv2 y gausianblur de valor 1}}{34}{figure.5.7}
+\contentsline {figure}{\numberline {5.8}{\ignorespaces Conjunto de prototipado de la interfaz para EDVR}}{35}{figure.5.8}
+\contentsline {figure}{\numberline {5.9}{\ignorespaces Primera pantalla de la interfaz, en la que se selecciona el v\IeC {\'\i }deo y la opci\IeC {\'o}n de usar el m\IeC {\'o}dulo de des emborronamiento}}{37}{figure.5.9}
+\contentsline {figure}{\numberline {5.10}{\ignorespaces Explorador de archivos para seleccionar el v\IeC {\'\i }deo si no se sabe el path}}{38}{figure.5.10}
+\contentsline {figure}{\numberline {5.11}{\ignorespaces Barra de referencia para informar de por que parte del procesamiento del v\IeC {\'\i }deo se halla el usuario}}{39}{figure.5.11}
+\contentsline {figure}{\numberline {5.12}{\ignorespaces Reproductor de v\IeC {\'\i }deo}}{40}{figure.5.12}

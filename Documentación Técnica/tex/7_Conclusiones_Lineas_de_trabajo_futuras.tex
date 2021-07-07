@@ -1,0 +1,34 @@
+\capitulo{7}{Conclusiones y Líneas de trabajo futuras}
+
+\section{Conclusiones}
+    En lo que concierne a la instalación y pruebas de EDVR, pese a los problemas iniciales, como la incompatibilidad hardware, la instalación y puesta en marcha es bastante sencilla. Más allá de algunos inconvenientes por las configuraciones devenidos de la falta de familiaridad con el entorno y de comprensión inicial, que son normales enfrentándose a un nuevo proyecto. Una vez solucionados estos inconvenientes y familiarizado con el entorno, el procesamiento de vídeos se hace relativamente fácil e intuitivo. El no tener acceso físico al equipo con el que se ha trabajado complicó todo el proceso más ya que las desconexiones de la VPN son constantes.
+    
+    La posibilidad de no solo usar los ejemplos que pertenecen a los conjuntos de datos estaba presente desde el principio y también fue un éxito ya que se permite al usuario procesar vídeos de resolución $720\times 1280$ píxeles  o viceversa. A la hora de configurar todo para hacerlo posible es bastante probable que los usuarios no se aclaren, ya que requiere de cierto conocimiento de EDVR para saber que se puede tocar y que no. 
+    
+    Debido a los problemas expuestos anteriormente, la idea de centralizar todas las tareas previas y posteriores que se requieren  para ejecutar EDVR se llevó a cabo para agilizar la ejecución en gran medida. Para ello se prefirió centrar los esfuerzos en hacerla funcional y útil, dejando un poco de lado el aspecto estético. Si se hubiese contado con más tiempo para el desarrollo los aspectos estéticos serían los siguientes en ser atajados.
+    
+    En cuanto al último apartado, pero probablemente el más importante, los resultados obtenidos de las ejecuciones de EDVR, se ha podido observar en los sucesivos ejemplos que se han presentado durante el desarrollo del trabajo, los resultados son óptimos y mejoran sustancialmente la calidad de visionado y amplían los detalles. Por supuesto hay acciones complejas o con mucho movimiento en los que los resultados no son tan buenos y  generan efectos un poco raros, pero este suele ser el caso en todos los modelos de super resolución y restauración.
+
+\section{Líneas de trabajo futuras}
+
+En relación con la interfaz, las posibles líneas de trabajo son las siguientes:
+
+\begin{itemize}
+\item Retomar la versión inicial de usar FFmpeg para el escalado y bajada de calidad de las imágenes originales, ya que esta biblioteca es usada en la transformación de vídeo a fotogramas y viceversa. Esto permitiría reducir el número de requerimientos previos para poder ejecutar la interfaz. 
+
+\item En la primera pantalla de la interfaz, una vez rellenados los campos y al apretar el botón de comenzar salta una ventana emergente que al fin y al cabo pide repetir la acción de seleccionar el botón de comenzar, por lo que debería eliminarse ese paso.
+
+\item El reproductor de vídeo que se incorpora en la interfaz es muy sencillo y podría ser optimizado evitando por ejemplo el paso de presionar el botón para cargar el vídeo a reproducir.
+
+\item PySimpleGUI ofrece diferentes opciones para la personalización y mejora de los aspectos estéticos de la interfaz, pero éstas son limitadas debido al enfoque que presenta, centrado en la funcionalidad y simplicidad. Se podría explorar otras opciones que ofrezcan mejores aspectos estéticos siguiendo los estilos más modernos. Como PySide6 o PyQt6 junto con Qt designer. 
+
+\end{itemize}
+
+En relación con la utilidad de los vídeos procesados, las posibles líneas de trabajo son las siguientes:
+
+\begin{itemize}
+\item Una vez el vídeo está procesado sería interesante el análisis con diferentes metodologías de clasificación/reconocimiento de acciones, comprobando si existen diferencias al procesar como entrada el vídeo original sin procesar frente al procesado, o si por el contrario las diferencias son inexistentes o irrelevantes.
+
+\item Otra línea de trabajo podría ser la implementación de otros modelos de super resolución, y con los mismos vídeos cómo entrada, comprobar como se comportan en ciertos aspectos y cuál o cuáles son mejores o peores que EDVR
+
+\end{itemize}

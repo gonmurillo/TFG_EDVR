@@ -1,0 +1,34 @@
+\capitulo{6}{Trabajos relacionados}
+
+Para la realización de este proyecto se realizó una exploración inicial del estado del arte de la super resolución y restauración tanto de vídeos e imágenes. En este apartado se exponen algunos artículos más relevantes y aquellos que se centran en técnicas no tan parecidas a EDVR.
+
+\section{WDVR}  
+Wide-activated 3D convolutional network for vídeo Restoration \cite{9025696}, centrándose en la restauración  en tres dimensiones: espacial, temporal y canal. Lo normal es que los modelos de super resolución se centren en los aspectos espaciotemporales.
+
+Este método se caracteriza por su eficacia con hardware limitado y baja latencia de ejecución, pero manteniendo el estado del arte en la super resolución. 
+
+\section{DUF}  
+Dynamic Upsampling Filters (DUF)\cite{8578438}, propone un modelo de super resolución de vídeos no convencional, la mayoría de los métodos se basan en la interpolación de fotogramas, y este se basa en el cálculo de movimientos. 
+
+Se basa en la utilización de una red neuronal que genera filtros dinámicos de muéstrelo y una imagen residual, que se calculan en función de la cercanía espaciotemporal de cada píxel evitando la compensación explícita del movimiento.
+
+Una imagen en alta resolución se genera a partir de la imagen de entrada usando filtros dinámicos de muestreo y a continuación se añades detalles mediante la imagen residual generada.
+
+\section{RBPN}
+Recurrent Back-Projection Network (RBPN)\cite{haris2019recurrent}, proponen una arquitectura que se basa en la integración espaciotemporal de varios fotogramas continuos, con un módulo recurrente que fusiona información de los fotogramas adyacentes.
+
+La novedad consiste en no unir los fotogramas adyacentes mediante apilamiento o deformación, si  no con una red de retroproyección concurrente  tratando cada imagen como una fuente de información independiente. Se genera una estimación del movimiento respecto al fotograma objetivo. 
+
+\section{TOFlow}
+Task-Oriented Flow (TOFlow)\cite{xue2019video}, se basa en una red convolucional entrenable que realiza el análisis de movimiento y el procesamiento de vídeo. Formada por tres módulos:
+
+\begin{itemize}
+\item El primero que estima los movimientos de los fotogramas de entrada. 
+
+\item El segundo registra todos los fotogramas basándose en las estimaciones de movimiento. 
+
+\item El tercero genera las salidas objetivo a partir de los fotogramas registrados.
+
+\end{itemize}
+
+Estos tres módulos son entrenados juntos para minimizar las pérdidas de información. Aplica mucha importancia a la estimación de movimientos prediciendo los correspondientes a tareas específicas.

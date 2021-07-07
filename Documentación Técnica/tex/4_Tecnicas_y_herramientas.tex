@@ -1,0 +1,123 @@
+\capitulo{4}{Técnicas y herramientas}
+
+En este apartado se presentan las técnicas metodológicas y las herramientas que se han usado en las distintas fases del desarrollo del proyecto.
+
+\section{Metodología}
+
+    \subsection{Scrum}
+    Como se explica más detenidamente en el apartado de Planificación temporal del Apéndice A, para la planificación y desarrollo del proyecto se ha utilizado la metodología ágil Scrum.
+
+
+\section{Herramientas de la fase de investigación}
+    
+    \subsection{VPN}
+    Virtual Private Network en inglés, es una tecnología de red que permite una extensión de una red de área local estando conectado a Internet. Permite que el ordenador en la red envíe y reciba datos sobre redes compartidas o públicas como si fuera una red privada, con toda la funcionalidad, seguridad y políticas de gestión de una red privada.
+        
+    Se ha usado FortiClient VPN\footnote{\url{https://www.fortinet.com/support/product-downloads}} para poder conectarme desde casa a la red de la Universidad de Burgos, y poder tener acceso a un equipo que cumpliese los requisitos de EDVR. 
+        
+    \subsection{Ssh}
+    Secure Shell\footnote{\url{https://docs.oracle.com/cd/E36784_01/html/E36870/ssh-1.html}} es un programa que se usa para iniciar sesión en máquinas de manera remota y poder ejecutar comandos. Provee conexiones encriptadas y seguras ente dos hosts  y red no seguras. Las conexiones X11 y los puertos TCP/IP pueden ir en el canal seguro.
+
+    Al iniciar la conexión, lo primero que se requiere es una autentificación, una vez realizado el \emph{login}, nos encontramos ante una terminal normal que se ejecuta en la maquina anfitrión.
+    
+    \textbf {ssh -X -p 01 gonzalo@10.160.160.120}
+    
+    \textbf{-X}, que permite X11 forwarding, lo que permite ejecutar aplicaciones graficas de la máquina remota, la aplicación se ejecuta en el host y la interfaz se visualiza en el anfitrión.
+    
+    \textbf{-p},  indica a el puerto al que conectarse en el host.
+    
+   
+    
+    En este proyecto se ha usado para poder conectase a un equipo que pudiese correr EDVR, ya que mi equipo personal no podía ejecutarlo debido a no tener una tarjeta gráfica compatible con CUDA.
+    
+    \subsection{CUDA}
+    Compute Unified Device Architecture es una plataforma de computación en paralelo y un modelo de programación que permite incremento en el rendimiento de computación al aprovechar de la potencia de la unidad de procesamiento de gráficos.
+    
+    CUDA es un requerimiento  para poder hacer funcionar EDVR, y nos ofrece la posibilidad de usar múltiples GPUs para a la hora de ejecutar los tests y trains.
+    
+    \subsection{Tmux}
+    Es una herramienta de multiplexación de terminales, permitiendo lanzar múltiples terminales en una sola pantalla, pudiendo ser gestionados individualmente. Otra ventaja y la principal razón por la que se ha usado en este trabajo, es la posibilidad de lanzar un script que tarde en ejecutarse y poder cerrar la conexión de ssh. El proceso seguirá ejecutándose mientras la máquina host no se apague, al retomar la conexión podemos volver a el terminal en el que se estaba ejecutando.
+    
+    Con las circunstancias en las que se a trabajado esto era muy cómodo ya que las desconexiones de la VPN eran relativamente ocasionales.
+    
+    \subsection{Pytorch}
+    Es una biblioteca de Python diseñada para realizar cálculos numéricos haciendo uso los tensores (\emph{arrays} de números que son usados para operaciones), permitiendo su ejecución en GPU para acelerar los cálculos. Es muy utilizada en el campo del \emph{machine learning} y es precisamente por eso que se usa en EDVR. Tiene compatibilidad con CUDA.
+
+
+\section{Herramientas de la fase de experimentación}
+    
+    \subsection{Matlab}
+    Es una plataforma de programación y cálculo numérico usada para analizar datos, desarrollar algoritmos y crear modelos. Usa su propio lenguaje de programación, M. 
+    
+    \imagen{pelota}{Ejemplo de imagen extraída de un vídeo de resolución $720\times 1280$ píxeles y la misma imagen procesada por Matlab de resolución $180\times 320$ píxeles}
+
+    En el proyecto se usó inicialmente para transformar las imágenes reduciendo su tamaño mediante submuestreo bicúbico, siendo estas las imágenes que se procesan en EDVR.
+    
+    A la hora de  implementar la interfaz y automatizar los procesos previos para ejecutar EDVR, en un primer momento se usó una biblioteca para Python que se encargaba de iniciar el Matlab Engine para poder ejecutar el código escrito en matlab. No obstante, finalmente se decidió que la versión final no se iba a usar Matlab ya que es una herramienta de pago y no todo el mundo tiene acceso a ella. En su lugar se usó código en Python para conseguir la misma transformación de las imágenes.
+
+    \subsection{FFmpg}
+    Es una colección de software libre que permite grabar, convertir y hacer streaming de audio y vídeo.
+    
+    Al implementar los vídeos propios y no usar los proporcionados en los datasets, aquí entra FFmpeg. Usamos su funcionalidad para convertir los vídeos en frames con el siguiente comando
+    
+    \verb|ffmpeg -i name.mp4  -start_number 0 "%08d.png"|
+    
+    \textbf{-i}: Indica el archivo de entrada.
+    
+    \textbf{-start\_number}: Indica que el primer frame empiece en el 0 y no en el 1.
+    
+    \textbf{\%08d.png}: Los archivos de salida empezarán por 8 ceros e irán incrementándose.
+    
+    La otra función para la que se usa FFmpeg es para convertir los frames procesados en vídeo.
+    
+    \verb|ffmpeg -framerate 30 -pattern\_type glob -i '*.png'   -c:v libx264|
+    
+    \verb|-pix\_fmt yuv420p name.mp4|
+    
+    \textbf{-framerate}: El número de frames por segundo.
+    
+    \textbf{-pattern\_type}: Ror defecto glob.
+    
+    \textbf{-i}: Indica los archivos a usar como entrada.
+    
+    \textbf{-c}: Selecciona el encoder.
+    
+    \textbf{-pix\_fmt}: El formato de pixels.
+    
+    A la hora de implementar FFmpeg a la interfaz se opto por usar una biblioteca de Python que implementa FFmpeg en su totalidad, ffmpeg-python. Se usa tanto en la transformación de vídeo a frames, como en su posterior recomposición.\footnote{\url{https://github.com/kkroening/ffmpeg-python}}
+    
+
+    \subsection{Jupyter Notebook}
+    Es una aplicación web que permite crear documentos con código, ecuaciones, visualizaciones y texto.  Se encuentra incorporado en Anaconda. Se ha usado un notebook totalmente funcional para hacer un pequeña introducción a EDVR así como una demostración de su funcionamiento.
+
+
+\section{Herramientas de la fase de desarrollo}
+
+    \subsection{PySimpleGUI}
+    Es un paquete de Python que permite  crear interfaces para programas en Python. Es muy sencillo de usar se crea una ventana y puedes añadir elementos sin apenas código. Ofrecen en su web y Github \footnote{\url{https://github.com/PySimpleGUI/PySimpleGUI}} gran cantidad de código listo para usarse para demostrar su funcionamiento, cambiar pequeños aspectos y dar ideas. Casi hay una implementación para todas las ideas que se te ocurran.
+    
+    \subsection{Cv2}
+    OpenCV es una biblioteca multiplataforma de visión artificial, aunque en el proyecto no se usa para eso, sino para lo mismo que se usaba Matlab, transformar las imágenes que se extraen de los vídeos, a las mismas redimensionadas y en baja calidad.
+    
+    GaussianBlurr para reducir el ruido y detalle.
+    
+    Resize con bicubic interpolation para reducir la imagen. 
+
+    \subsection{Python-VLC}
+    VLC\footnote{\url{https://www.vídeolan.org/vlc/index.es.html}} es un reproductor multimedia libre y de código abierto multiplataforma y un framework que reproduce la mayoría de los archivos multimedia.
+    
+    Se usa el módulo de Python para reproducir el vídeo generado por EDVR dentro de la interfaz. Para poder usar el módulo se requiere tener instalado VLC en el equipo.
+
+
+\section{Otras herramientas}
+
+    \subsection{Google Drive}
+    Es un servicio de alojamiento de archivos de Google. Uno de los dataset que usa EDVR está alojado en esta plataforma  y también se ha usado como intermediario para transferir archivos entre mi equipo y el equipo propiedad de la Universidad de Burgos.
+    
+    \subsection{Overleaf}
+    En un  editor colaborativo de \LaTeX{} online para la generación de la presente memoria y anexos.
+    
+    \subsection{GitHub}    
+    GitHub es una plataforma de desarrollo colaborativo utilizado para alojar proyectos y utilizar el sistema de control de versiones Git.
+
+

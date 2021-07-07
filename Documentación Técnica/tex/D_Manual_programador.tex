@@ -1,0 +1,238 @@
+\apendice{Documentación técnica de programación}
+\label{ape:dtp}
+
+\section{Introducción}
+
+En este apartado se van a exponer todos los conceptos necesarios para
+comprender la estructura de proyecto, instalar el software necesario para su
+integración e importarlo en un nuevo equipo para  ser ejecutado.
+
+
+\section{Estructura de directorios}
+
+A continuación, se muestra la estructura de directorios en la que se distribuye
+el proyecto:
+\begin{itemize}
+	\item \textbf{\textbackslash  Interfaz:} Carpeta principal del proyecto donde se encuentran todos los elementos relacionados con la interfaz.
+	\begin{itemize}
+		\item\textbf{\textbackslash  Estados:} Carpeta que contiene las imágenes que se usan en la interfaz para reflejar el estado de la ejecución.
+		\begin{itemize}
+			\item\textbf{frames.png:} Imagen del proceso de convertir el vídeo a fotogramas.
+			\item\textbf{LQ.png:} Imagen del proceso de transformar los fotogramas a baja calidad.
+			\item\textbf{EDVR.png:} Imagen del proceso de ejecución de EDVR.
+			\item\textbf{video.png:} Imagen del proceso de recomposición de los fotogramas procesados a vídeo.
+		\end{itemize}
+		\item\textbf{\textbackslash  Resultado:} Carpeta donde se guarda el vídeo procesado.
+		\item\textbf{\textbackslash  fotogramas:} Carpeta donde se guardan todos los fotogramas del vídeo.
+		\begin{itemize}
+			\item\textbf{\textbackslash  originales:} Carpeta donde se guardan los fotogramas originales.
+			\item\textbf{\textbackslash  lr:} Carpeta donde se guardan los fotogramas en baja calidad.
+		\end{itemize}
+		\item\textbf{EDVR\_UI.py:} Código de la interfaz.
+		\item\textbf{meta\_info\_MIO.txt:} Fichero en el que se guardan los datos de: carpeta de localización de los fotogramas, el número de fotogramas y la resolución de estos.
+        \item\textbf{test\_EDVR\_L\_x4\_SR\_Mio.yml:} Fichero que contiene los datos para la ejecución, entre otros la localización todos los fotogramas, el uso o no del modo \emph{predeblur} y el modelo preentrenado usado.
+        \item\textbf{EDVR\_L\_x4\_SRblur\_REDS\_official-983d7b83.pth:} modelo entrenado para los casos que usen el modo \emph{predeblur}.
+        \item\textbf{EDVR\_L\_x4\_SR\_REDS\_official-9f5f5039.pth:} modelo entrenado para los casos que no usen el modo \emph{predeblur}.
+	\end{itemize}
+    \item\textbf{\textbackslash  ejemplos:} Imágenes que se usan en el \emph{notebook}.
+	\item\textbf{\textbackslash  MiniConjunto:} Carpeta con los elementos que usa el \emph{notebook} para la ejecución de EDVR.
+	\begin{itemize}
+		\item\textbf{\textbackslash  train\_blur\_bicubic:} Imágenes en baja resolución del conjunto REDS.
+        \item\textbf{\textbackslash  train\_sharp:} Imágenes en originales del conjunto REDS.
+        \item\textbf{test\_EDVR\_L\_x4\_SRblur\_REDS.yml:} Fichero que contiene los datos para la ejecución del mini conjunto.
+        \item\textbf{ meta\_info\_REDS4\_test\_GT.txt :} Fichero en el que se guardan los datos de los vídeos  y fotogramas del mini conjunto.
+	\end{itemize}
+	\item\textbf{demostración.ipynb:} Cuaderno de \emph{Jupyter} que contiene una explicación de EDVR y un ejemplo funcional de una ejecución de EDVR.
+
+\end{itemize}
+
+\section{Manual del programador}
+
+A la hora de configurar una ejecución  de EDVR son necesarias tres cosas, contar con los fotogramas, tener el fichero .txt con los datos relativos a los fotogramas y tener un fichero. yml con los datos de la ejecución de EDVR. Es en este último archivo donde se pueden configurar más en profundidad las ejecuciones. Durante la demostración y la interfaz que se presentan en este desarrollo no se cambian demasiados aspectos, tan solo los necesarios para hacerse funcionar con los datos de los vídeos proporcionados. Pero se puede ahondar más en la personalización. Tomaremos como ejemplo el archivo situado en el repositorio original \href{https://github.com/xinntao/EDVR/blob/master/options/test/EDVR/test_EDVR_L_x4_SRblur_REDS.yml}{link}.
+
+\label{lis:yml}
+\begin{lstlisting}
+    name: EDVR_L_x4_REDS_SR_official
+    model_type: EDVRModel
+    scale: 4
+    num_gpu: 4  
+    manual_seed: 0
+    
+    datasets:
+      test:
+        name: REDS4
+        type: VideoTestDataset
+        dataroot_gt: datasets/REDS/train_sharp
+        dataroot_lq: datasets/REDS/train_sharp_bicubic
+        meta_info_file: basicsr/data/meta_info/
+        meta_info_REDS4_test_GT.txt
+        io_backend:
+          type: disk
+    
+        cache_data: false
+        num_frame: 5
+        padding: reflection_circle
+    
+    # network structures
+    network_g:
+      type: EDVR
+      num_in_ch: 3
+      num_out_ch: 3
+      num_feat: 128
+      num_frame: 5
+      deformable_groups: 8
+      num_extract_block: 5
+      num_reconstruct_block: 40
+      center_frame_idx: ~
+      hr_in: false
+      with_predeblur: true
+      with_tsa: true
+    
+    # path
+    path:
+      pretrain_network_g: experiments/pretrained_models/
+      EDVR_L_x4_SRblur_REDS_official-9f5f5039.pth
+      strict_load_g: true
+    
+    # validation settings
+    val:
+      save_img: true
+      suffix: ~ 
+    
+      metrics:
+        psnr: # metric name, can be arbitrary
+          type: calculate_psnr
+          crop_border: 0
+          test_y_channel: false
+\end{lstlisting}
+
+Lo primero que podemos modificar es el número de gpus, dependiendo del número de las que se dispongan, también se puede usar un modo cpu poniendo un 0 en este apartado. 
+
+La siguiente característica cuya modificación puede ser interesante es el de \emph{type} en el apartado \emph{dataset}, que es la manera de almacenar los fotogramas de los vídeos, hay tres opciones disc, LMDB o memcached. 
+\begin{itemize}
+	\item \textbf{disc:} Los fotogramas se almacenan en el disco duro.
+	\item \textbf{LMDB:}(\emph{ Lightning Memory-Mapped Database})usa una técnica para incrementar la velocidad de descompresión de la cpu. Para la realización de los tests no es muy recomendable ya que no suele ser mucha la información a procesar. Requiere generar los ficheros LMBD\cite{LMBD}.
+	\item \textbf{memcached:} Aporta un mejor rendimiento ya que usa la memoria caché. Requiere que el equipo soporte Memcached\cite{Memcached} y requiere más campos en el fichero.yml:
+	\begin{itemize}
+	\item server\_list\_cfg:
+	\item client\_cfg:
+	\item sys\_path:
+   	 \end{itemize}
+   	 Cada uno con sus respectivas localizaciones.
+\end{itemize}
+
+Para la ejecución de EDVR, el apartado \emph{network structures} contiene la información de los parámetros que se usan en la ejecución del algoritmo de super resolución:
+
+\begin{table}[h]
+\begin{tabular}{ |p{5cm}||p{1cm}|p{6cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{Descripción de la estructura de procesamiento interno en EDVR} \\
+ \hline
+ \textbf{Parámetro}&  \textbf{Valor}&  \textbf{Descripción} \\
+ \hline
+  \hline
+            num\_in\_ch & 3 & Número de canales de entrada \\ \hline
+		    num\_out\_ch & 3 & Número de canales de salida\\ \hline
+		    num\_feat & 128 & Número de canales para las caracteristicas\\ \hline
+		    num\_frame & 5 & Número de fotogramas de entrada\\ \hline
+		    deformable\_groups & 8 & Número de grupos en el que se dividirá la compensación\\ \hline
+		    num\_extract\_block & 5 & Número de bloques para la adquisición de las caracteísticas \\ \hline
+		    num\_reconstruct\_block & 40 & Número de bloques para la reconstrucción\\ \hline
+		    center\_frame\_idx & none & El índice del fotograma central\\ \hline
+		    hr\_in & false & Si los frames a procesar son en alta resolución\\ \hline
+\hline
+\end{tabular}
+\caption{Estructura de procesamiento interno en EDVR}
+\end{table}
+
+Por último, si se disponen de fotogramas ideales, estos pueden ser usados para calcular dos métricas que ofrecen una calificación cuantitativa de la mejora de los fotogramas mejorados comparados con la imagen ideal. PSNR(Peak Signal-to-Noise Ratio) \cite{wiki:PSNR} y SSIM(Structural Similarity Index Measure) \cite{ wiki:SSIM}. 
+
+Los fotogramas deben colocarse en el apartado \emph{dataset} en el campo \emph{dataroot\_gt}. Los dos resultados de estas métricas se proporcionan al final de la ejecución en el terminal o se pueden consultar en los logs generados de cada ejecución ubicados en la carpeta $/$results. Cuanto su valor sea más alto mejor será el resultado, esto en cuanto a PSNR y en relación a SSIM cuanto mas cerca este el valor de 1 mejor será el resultado.
+
+
+\section{Compilación, instalación y ejecución del proyecto}
+En este aparatado se indica como instalar el repositorio de EDVR y como ejecutarlo. También se explica cómo instalar la interfaz con todos sus requerimientos.
+
+\subsection{Instalación}
+\label{sub:ins}
+Antes de instalar los repositorios es importante comprobar que se cumplen los requisitos para hacer funcionar EDVR cumpliendo o obteniendo los siguientes requisitos:
+
+\begin{itemize}
+	\item Python $\geq$ 3.7 recomendando Anaconda.
+	\item PyTorch $\geq$ 1.3
+	\item Tarjeta gráfica NVIDIA y CUDA
+\end{itemize}
+
+Una vez cumplidos es importante instalar el repositorio original de EDVR  \url{ https://github.com/xinntao/EDVR } para que posteriormente la interfaz funcione correctamente, ya que si no habrá conflictos con las ubicaciones de los archivos.
+
+Lo primero es clonar el repositorio:
+\begin{verbatim}
+git clone https://github.com/xinntao/BasicSR.git
+\end{verbatim}
+
+Una vez clonado hay que instalar las dependencias con: 
+\begin{verbatim}
+pip install -r requirements.txt
+\end{verbatim}
+
+Y por último para instalar completamente todo este comando:
+\begin{verbatim}
+python setup.py develop
+\end{verbatim}
+
+Con estos pasos ya esta EDVR listo para usarse, ahora pasamos a instalar el repositorio de este proyecto. Puede ser clonado en el mismo directorio donde se localiza todo lo descargado e instalado con el repositorio de EDVR.
+
+Para ello usamos el siguiente comando:
+\begin{verbatim}
+https://github.com/gonmurillo/TFG_EDVR.git
+\end{verbatim}
+
+En el cuaderno de Jupyter hay una miniguía de instalación y ejecución, que puede ser usada nada más descargar el repositorio del proyecto.
+
+Las siguientes bibliotecas deben ser descargadas, junto al programa VLC:
+
+\begin{verbatim}
+pip install ffmpeg-python
+pip install opencv-python
+pip install PySimpleGUI
+pip install python-vlc
+sudo apt install vlc
+\end{verbatim}
+
+En nuestro caso se instaló VLC con el comando apt ya que con snap no se instalaba un codec que es necesario. La interfaz y e cuaderno Jupyter están configurados de tal manera que la mayoría de sus necesidades para funcionar están en el repositorio que se proporciona, pero hay ciertos aspectos en los que son dependientes del repositorio, como para la ejecución del algoritmo. Los \emph{paths} solo funcionaran correctamente si se la carpeta del repositorio se coloca con el resto de las carpetas de EDVR. Si no se hace así habría que modificar varias partes del código para la nueva ubicación. 
+
+Con todos estos pasos realizados ya se puede ejecutar tanto EDVR de manera normal, desde el cuaderno Jupyter y desde la interfaz.
+
+Para hacer funcionar la interfaz solo en necesario desplazarse hasta la ubicación del archivo y ejecutarlo con:
+\begin{verbatim}
+python EDVR_UI.py
+\end{verbatim}
+
+\subsection{Ejecución}
+A la hora de ejecutar EDVR se ofrecen 2 opciones, hacerlo por la consola de comandos, pero realizando los pasos previos de configuración manualmente, o usar la aplicación partiendo solo desde un vídeo.
+
+Para la primera opción, una vez todos los pasos previos están realizados basta con adaptar estas tres líneas de código:
+
+\begin{verbatim}
+PYTHONPATH="./:${PYTHONPATH}"
+CUDA_VISIBLE_DEVICES=0
+python basicsr/test.py -opt options/test/EDVR/test_EDVR_L_x4_SRblur_REDS.yml
+\end{verbatim}
+
+Pudiendo personalizar el número de gpus que participarán en la ejecución y cambiando entre los ficheros que contienen los datos de la ejecución(.yml).
+Si se usa varias gpus la línea que especifica el número y la que ejecuta el archivo de Python cambian, en este ejemplo se usan 4 gpus:
+
+\begin{verbatim}
+PYTHONPATH="./:${PYTHONPATH}" \
+CUDA_VISIBLE_DEVICES=0,1,2,3 \
+python -m torch.distributed.launch --nproc_per_node=4 --master_port=4321 
+basicsr/test.py -opt options/test/EDVR/test_EDVR_L_x4_SRblur_REDS.yml
+--launcher pytorch
+\end{verbatim}
+
+
+La segunda opción, es mucho más sencilla pero no ofrece tanto control sobre la ejecución:
+
+\begin{verbatim}
+python EDVR_UI.py
+\end{verbatim}
